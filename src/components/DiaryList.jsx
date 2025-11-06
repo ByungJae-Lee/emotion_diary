@@ -23,7 +23,7 @@ const DiaryList = ({ data }) => {
     });
   };
 
-  const sortedData = getSortedData();
+  const sortedData = getSortedDate();
 
   return (
     <div className="DiaryList">
