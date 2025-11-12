@@ -2,7 +2,7 @@ import React from 'react';
 import './Editor.css';
 import EmotionItem from './EmotionItem';
 import Button from './Button';
-
+import { useState } from 'react';
 const emotionList = [
   {
     emotionId: 1,
@@ -26,14 +26,35 @@ const emotionList = [
   },
 ];
 
+const getStringedDate = (targetDate) => {
+  // 날짜 -> YYYY-MM-DD (09 09)
+  let year = targetDate.getFullYear();
+  let month = targetDate.getMonth() + 1;
+  let date = targetDate.getDate();
+
+  if (month < 10) {
+    month = `0${month}`;
+  }
+  if (date < 10) {
+    date = `0${date}`;
+  }
+
+  return `${year}-${month}-${date}`;
+};
+
 const Editor = () => {
+  const [input, setInput] = useState({
+    createdDate: new Date(),
+    emotionId: 3,
+    content: '',
+  });
   const emotionId = 1;
 
   return (
     <div className="Editor">
       <section className="date_section">
         <h4>오늘의 날짜</h4>
-        <input type="date" />
+        <input value={getStringedDate(input.createdDate)} type="date" />
       </section>
       <section className="emotion_section">
         <h4>오늘의 감정</h4>
