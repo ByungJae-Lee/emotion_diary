@@ -48,22 +48,48 @@ const Editor = () => {
     emotionId: 3,
     content: '',
   });
-  const emotionId = 1;
+
+  const onChangeInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    if (name === 'createdDate') {
+      value = new Date(value);
+    }
+
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
 
   return (
     <div className="Editor">
       <section className="date_section">
         <h4>오늘의 날짜</h4>
-        <input value={getStringedDate(input.createdDate)} type="date" />
+        <input
+          name="createdDate"
+          onChange={onChangeInput}
+          value={getStringedDate(input.createdDate)}
+          type="date"
+        />
       </section>
       <section className="emotion_section">
         <h4>오늘의 감정</h4>
         <div className="emotion_list_wrapper">
           {emotionList.map((item) => (
             <EmotionItem
+              onClick={() =>
+                onChangeInput({
+                  target: {
+                    name: 'emotionId',
+                    value: item.emotionId,
+                  },
+                })
+              }
               key={item.emotionId}
               {...item}
-              isSelected={item.emotionId === emotionId}
+              isSelected={item.emotionId === input.emotionId}
             />
           ))}
         </div>
