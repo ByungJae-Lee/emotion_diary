@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import Editor from '../components/Editor';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import {DiaryDispatchContext} from "../App"
+import { DiaryDispatchContext } from '../App';
 const New = () => {
-  const {onCreate} = useContext{DiaryDispatchContext};
+  const { onCreate } = useContext(DiaryDispatchContext);
   const nav = useNavigate();
 
-const onSubmit = (input)=>{
-onCreate(input.createdDate, input.emotionID, input.content)
-}
+  const onSubmit = (input) => {
+    onCreate(input.createdDate.getTime(), input.emotionID, input.content);
+    nav('/', { replace: true });
+  };
 
   return (
     <div>
@@ -19,7 +19,7 @@ onCreate(input.createdDate, input.emotionID, input.content)
         title={'새 일기 쓰기'}
         leftChild={<Button onClick={() => nav(-1)} text={'< 뒤로가기'} />}
       />
-      <Editor onSubmit={onSubmit}/>
+      <Editor onSubmit={onSubmit} />
     </div>
   );
 };

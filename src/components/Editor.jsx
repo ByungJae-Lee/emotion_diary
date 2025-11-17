@@ -3,6 +3,8 @@ import './Editor.css';
 import EmotionItem from './EmotionItem';
 import Button from './Button';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const emotionList = [
   {
     emotionId: 1,
@@ -48,6 +50,7 @@ const Editor = ({ onSubmit }) => {
     emotionId: 3,
     content: '',
   });
+  const nav = useNavigate();
 
   const onChangeInput = (e) => {
     let name = e.target.name;
@@ -108,7 +111,7 @@ const Editor = ({ onSubmit }) => {
         ></textarea>
       </section>
       <section className="button_section">
-        <Button text={'취소하기'} />
+        <Button onClick={() => nav(-1)} text={'취소하기'} />
         <Button
           onClick={onClickSubmitButton}
           text={'작성완료'}
