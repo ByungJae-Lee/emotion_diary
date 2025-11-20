@@ -54,7 +54,10 @@ const Editor = ({ initData, onSubmit }) => {
 
   useEffect(() => {
     if (initData) {
-      setInput({ ...initData });
+      setInput({
+        ...initData,
+        createdDate: new Date(Number(initData.createdDate)),
+      });
     }
   }, [initData]);
 
