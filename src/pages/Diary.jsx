@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import Viewer from '../components/Viewer';
 import useDiary from '../hooks/useDiary';
+import { getStringedDate } from '../util/get-stringed-date';
 
 const Diary = () => {
   const params = useParams();
@@ -16,6 +17,7 @@ const Diary = () => {
   }
 
   const { createDate, emotionId, content } = curDiaryItem;
+  const title = getStringedDate(new Date(createDate));
 
   return (
     <div>
