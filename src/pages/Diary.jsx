@@ -22,7 +22,7 @@ const Diary = () => {
   return (
     <div>
       <Header
-        title={'yyyy-mm-dd 기록'}
+        title={`${title} 기록`}
         leftChild={<Button onClick={() => nav(-1)} text={'< 뒤로 가기'} />}
         rightChild={
           <Button onClick={() => `/edit/${params.id}`} text={'수정하기'} />

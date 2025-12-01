@@ -29,9 +29,11 @@ const mockData = [
 ];
 
 function reducer(state, action) {
+  let nextState;
   switch (action.type) {
     case 'CREATE':
-      return [action.data, ...state];
+      nextState = [action.data, ...state];
+      break;
     case 'UPDATE':
       return state.map((item) =>
         String(item.id) === String(action.data.id) ? action.data : item
@@ -41,6 +43,7 @@ function reducer(state, action) {
     default:
       return state;
   }
+  return nextState;
 }
 
 export const DiaryStateContext = createContext();
@@ -49,6 +52,7 @@ export const DiaryDispatchContext = createContext();
 function App() {
   const [data, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3);
+
   // 새로운 일기 추가
   const onCreate = (createdDate, emotionId, content) => {
     dispatch({
