@@ -1,5 +1,5 @@
 import './App.css';
-import { useReducer, useRef, createContext } from 'react';
+import { useReducer, useRef, createContext, useEffect } from 'react';
 import Home from './pages/Home';
 import Diary from './pages/Diary';
 import New from './pages/New';
@@ -7,42 +7,29 @@ import Edit from './pages/Edit';
 import Notfound from './pages/Notfound';
 import { Route, Routes } from 'react-router-dom';
 
-const mockData = [
-  {
-    id: 1,
-    createdDate: new Date('2024-02-19').getTime(),
-    emotionId: 1,
-    content: '1번 일기 내용',
-  },
-  {
-    id: 2,
-    createdDate: new Date('2024-02-18').getTime(),
-    emotionId: 2,
-    content: '2번 일기 내용',
-  },
-  {
-    id: 3,
-    createdDate: new Date('2024-08-13').getTime(),
-    emotionId: 3,
-    content: '3번 일기 내용',
-  },
-];
-
 function reducer(state, action) {
   let nextState;
   switch (action.type) {
-    case 'CREATE':
+    case 'CREATE': {
       nextState = [action.data, ...state];
       break;
-    case 'UPDATE':
-      return state.map((item) =>
+    }
+
+    case 'UPDATE': {
+      nextState = state.map((item) =>
         String(item.id) === String(action.data.id) ? action.data : item
       );
-    case 'DELETE':
-      return state.filter((item) => String(item.id) !== String(action.id));
+      break;
+    }
+
+    case 'DELETE': {
+      nextState = state.filter((item) => String(item.id) !== String(action.id));
+      break;
+    }
     default:
       return state;
   }
+  localStorage.setItem('diary', JSON.stringify(nextState));
   return nextState;
 }
 
@@ -50,8 +37,12 @@ export const DiaryStateContext = createContext();
 export const DiaryDispatchContext = createContext();
 
 function App() {
-  const [data, dispatch] = useReducer(reducer, mockData);
-  const idRef = useRef(3);
+  const [data, dispatch] = useReducer(reducer, []);
+  const idRef = useRef(0);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('diary');
+  }, []);
 
   // 새로운 일기 추가
   const onCreate = (createdDate, emotionId, content) => {
