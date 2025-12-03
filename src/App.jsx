@@ -10,6 +10,8 @@ import { Route, Routes } from 'react-router-dom';
 function reducer(state, action) {
   let nextState;
   switch (action.type) {
+    case 'INIT':
+      return action.data;
     case 'CREATE': {
       nextState = [action.data, ...state];
       break;
@@ -42,6 +44,22 @@ function App() {
 
   useEffect(() => {
     const storedData = localStorage.getItem('diary');
+    if (!storedData) {
+      return;
+    }
+    const parsedData = JSON.parse(storedData);
+
+    let maxId = 0;
+    parsedData.forEach((item) => {
+      if (Number(item.id) > maxId) {
+        maxId = Number(item.id);
+      }
+    });
+
+    dispatch({
+      type: 'INIT',
+      data: parsedData,
+    });
   }, []);
 
   // 새로운 일기 추가
